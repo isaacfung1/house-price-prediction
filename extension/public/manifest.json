@@ -1,0 +1,12 @@
+{
+  "manifest_version": 3,
+  "name": "GTA House Price AI",
+  "version": "1.0",
+  "description": "Predicting GTA house prices using a Random Forest model.",
+  "permissions": ["activeTab"],
+  "host_permissions": ["http://127.0.0.1:8000/*"],
+  "action": {
+    "default_popup": "index.html",
+    "default_title": "Predict Price"
+  }
+}
