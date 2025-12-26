@@ -51,7 +51,7 @@ def predict_price(request: LocationRequest):
         
         stats = {}
         if fsa in lookup_table.index:
-            stats = lookup_table.loc[fsa].to_dict()
+            stats = lookup_table.loc[fsa].fillna(0).to_dict()
         else:
             stats = {'bedrooms': 3, 'bathrooms': 2, 'sqft': 1500, 'lot_sqft': 0}
 

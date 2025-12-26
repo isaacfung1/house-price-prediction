@@ -3,6 +3,8 @@ import './App.css'
 
 function App() {
   const [beds, setBeds] = useState(3)
+  const [baths, setBaths] = useState(2)
+  const [sqft, setSqft] = useState(1500)
   const [price, setPrice] = useState(null)
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState(null)
@@ -57,6 +59,22 @@ function App() {
           type="number" 
           value={beds} 
           onChange={(e) => setBeds(e.target.value)}
+        />
+      </div>
+
+      <div className="input-group">
+        <label>Bathrooms</label>
+        <input type="number" 
+        value={baths} 
+        onChange={(e) => setBaths(e.target.value)}/>
+      </div>
+
+      <div className="input-group">
+        <label>Square Footage</label>
+        <input 
+          type="number"
+          value={sqft} 
+          onChange={(e) => setSqft(e.target.value)}
         />
       </div>
 
