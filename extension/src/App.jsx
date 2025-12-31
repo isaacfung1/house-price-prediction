@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import './App.css'
 
 function App() {
@@ -9,18 +9,41 @@ function App() {
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState(null)
   const [details, setDetails] = useState(null)
+  const [location, setLocation] = useState({lat: null, long: null})
+
+  useEffect(() => {
+    chrome.tabs.query({active: true, currentWindow: true}, (tabs) => {
+      const activeTab = tabs[0];
+
+      chrome.tabs.sendMessage(activeTab.id, { action: "GET_LOCATION"}, (response) => {
+        if (chrome.runtime.lastError || !response || !response.success) {
+          setError("Please open Google Maps to use.");
+          return;
+        }
+
+        setLocation({ lat: response.latitude, long: response.longitude });
+        setError(null);
+      });
+    });
+  }, []);
 
   const handlePredict = async () => {
+    if (!location.lat) {
+      setError("Location not available. Please open Google Maps to use.");
+      return;
+    }
+
     setLoading(true);
     setError(null);
     setPrice(null);
 
     try {
-      // 1. Prepare Payload (Hardcoded location for now)
       const payload = {
-        latitude: 44.0,
-        longitude: -79.46,
-        bedrooms: parseInt(beds)
+        latitude: location.lat,
+        longitude: location.long,
+        bedrooms: parseInt(beds),
+        bathrooms: parseInt(baths),
+        sqft: parseInt(sqft)
       };
 
       // 2. Call API
@@ -51,7 +74,15 @@ function App() {
 
   return (
     <div className="container">
-      <h2>🏡 Price AI</h2>
+      <h2>🏡 GTA House Price AI</h2>
+
+      <div className="status-bar">
+        {location.lat ? (
+          <span className="success">📍 Location Locked</span>
+        ) : (
+          <span className="warning">⚠️ Open Google Maps</span>
+        )}
+      </div>
       
       <div className="input-group">
         <label>Bedrooms</label>

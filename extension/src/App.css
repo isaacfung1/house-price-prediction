@@ -18,3 +18,6 @@ button:disabled { background-color: #ccc; cursor: not-allowed; }
 .result h3 { margin: 0; color: #0369a1; font-size: 24px; }
 .small { font-size: 11px; color: #666; margin-top: 5px; }
 .error { color: red; text-align: center; font-size: 14px; }
+
+.success { color: green; font-weight: bold; }
+.warning { color: orange; font-weight: bold; }
